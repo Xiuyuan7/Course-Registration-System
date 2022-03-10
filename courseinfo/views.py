@@ -68,7 +68,7 @@ class CourseList(View):
 class CourseDetail(View):
 
     def get(self, request, pk):
-        course = get_object_or_404(Course, pk=pk+1)
+        course = get_object_or_404(Course, pk=pk)
         section_list = course.sections.all()
         return render(
             request,

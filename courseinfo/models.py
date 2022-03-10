@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Period(models.Model):
@@ -37,6 +38,9 @@ class Semester(models.Model):
         # return '%s - %s' % (self.year.year, self.period.period_name)
         return f'{self.year.year} - {self.period.period_name}'
 
+    def get_absolute_url(self):
+        return reverse('courseinfo_semester_detail_urlpattern', kwargs={'pk': self.pk})
+
     class Meta:
         ordering = ['year__year', 'period__period_sequence']
         constraints = [UniqueConstraint(fields=['year', 'period'], name='unique semester')]
@@ -50,6 +54,9 @@ class Course(models.Model):
     def __str__(self):
         # return '%s - %s' % (self.course_number, self.course_name)
         return f'{self.course_number} - {self.course_name}'
+
+    def get_absolute_url(self):
+        return reverse('courseinfo_course_detail_urlpattern', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['course_number', 'course_name']
@@ -74,6 +81,9 @@ class Instructor(models.Model):
             return f'{self.last_name}, {self.first_name} ({self.disambiguator})'
         return result
 
+    def get_absolute_url(self):
+        return reverse('courseinfo_instructor_detail_urlpattern', kwargs={'pk': self.pk})
+
     class Meta:
         ordering = ['last_name', 'first_name', 'disambiguator']
         constraints = [UniqueConstraint(fields=['last_name', 'first_name', 'disambiguator'], name='unique_instructor')]
@@ -97,6 +107,9 @@ class Student(models.Model):
             return f'{self.last_name}, {self.first_name} ({self.disambiguator})'
         return result
 
+    def get_absolute_url(self):
+        return reverse('courseinfo_student_detail_urlpattern', kwargs={'pk': self.pk})
+
     class Meta:
         ordering = ['last_name', 'first_name', 'disambiguator']
         constraints = [UniqueConstraint(fields=['last_name', 'first_name', 'disambiguator'], name='unique_student')]
@@ -113,6 +126,9 @@ class Section(models.Model):
         # return '%s - %s (%s)' % (self.course.course_number, self.section_name, self.semester.__str__())
         return f'{self.course.course_number} - {self.section_name} ({self.semester.__str__()})'
 
+    def get_absolute_url(self):
+        return reverse('courseinfo_section_detail_urlpattern', kwargs={'pk': self.pk})
+
     class Meta:
         ordering = ['course', 'section_name', 'semester']
         constraints = [UniqueConstraint(fields=['course', 'section_name', 'semester'], name='unique_section')]
@@ -126,6 +142,9 @@ class Registration(models.Model):
     def __str__(self):
         # return '%s / %s' % (self.section, self.student)
         return f'{self.section} / {self.student}'
+
+    def get_absolute_url(self):
+        return reverse('courseinfo_registration_detail_urlpattern', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['section', 'student']
