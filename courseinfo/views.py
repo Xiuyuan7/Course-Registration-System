@@ -1,13 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-
 from courseinfo.models import Instructor, Section, Course, Semester, Student, Registration
+from courseinfo.forms import InstructorForm, SectionForm, CourseForm, SemesterForm, StudentForm, RegistrationForm
+from courseinfo.utils import ObjectCreateMixin
 
 
-# def instructor_list_view(request):
-#     instructor_list = Instructor.objects.all()
-#     # instructor_list = Instructor.objects.none()
-#     return render(request, 'courseinfo/instructor_list.html', {'instructor_list': instructor_list})
 class InstructorList(View):
 
     def get(self, request):
@@ -26,10 +23,11 @@ class InstructorDetail(View):
         )
 
 
-# def section_list_view(request):
-#     section_list = Section.objects.all()
-#     # section_list = Section.objects.none()
-#     return render(request, 'courseinfo/section_list.html', {'section_list': section_list})
+class InstructorCreate(ObjectCreateMixin, View):
+    form_class = InstructorForm
+    template_name = 'courseinfo/instructor_form.html'
+
+
 class SectionList(View):
 
     def get(self, request):
@@ -55,10 +53,11 @@ class SectionDetail(View):
         )
 
 
-# def course_list_view(request):
-#     course_list = Course.objects.all()
-#     # course_list = Course.objects.none()
-#     return render(request, 'courseinfo/course_list.html', {'course_list': course_list})
+class SectionCreate(ObjectCreateMixin, View):
+    form_class = SectionForm
+    template_name = 'courseinfo/section_form.html'
+
+
 class CourseList(View):
 
     def get(self, request):
@@ -77,10 +76,11 @@ class CourseDetail(View):
         )
 
 
-# def semester_list_view(request):
-#     semester_list = Semester.objects.all()
-#     # semester_list = Semester.objects.none()
-#     return render(request, 'courseinfo/semester_list.html', {'semester_list': semester_list})
+class CourseCreate(ObjectCreateMixin, View):
+    form_class = CourseForm
+    template_name = 'courseinfo/course_form.html'
+
+
 class SemesterList(View):
 
     def get(self, request):
@@ -99,10 +99,11 @@ class SemesterDetail(View):
         )
 
 
-# def student_list_view(request):
-#     student_list = Student.objects.all()
-#     # student_list = Student.objects.none()
-#     return render(request, 'courseinfo/student_list.html', {'student_list': student_list})
+class SemesterCreate(ObjectCreateMixin, View):
+    form_class = SemesterForm
+    template_name = 'courseinfo/semester_form.html'
+
+
 class StudentList(View):
 
     def get(self, request):
@@ -121,10 +122,11 @@ class StudentDetail(View):
         )
 
 
-# def registration_list_view(request):
-#     registration_list = Registration.objects.all()
-#     # registration_list = Registration.objects.none()
-#     return render(request, 'courseinfo/registration_list.html', {'registration_list': registration_list})
+class StudentCreate(ObjectCreateMixin, View):
+    form_class = StudentForm
+    template_name = 'courseinfo/student_form.html'
+
+
 class RegistrationList(View):
 
     def get(self, request):
@@ -140,3 +142,8 @@ class RegistrationDetail(View):
             'courseinfo/registration_detail.html',
             {'registration': registration}
         )
+
+
+class RegistrationCreate(ObjectCreateMixin, View):
+    form_class = RegistrationForm
+    template_name = 'courseinfo/registration_form.html'
