@@ -10,7 +10,6 @@ class Period(models.Model):
     period_name = models.CharField(max_length=45, unique=True)
 
     def __str__(self):
-        # return '%s' % self.period_name
         return f'{self.period_name}'
 
     class Meta:
@@ -22,7 +21,6 @@ class Year(models.Model):
     year = models.IntegerField(unique=True)
 
     def __str__(self):
-        # return '%s' % self.year
         return f'{self.year}'
 
     class Meta:
@@ -35,11 +33,13 @@ class Semester(models.Model):
     period = models.ForeignKey(Period, related_name='semesters', on_delete=models.PROTECT)
 
     def __str__(self):
-        # return '%s - %s' % (self.year.year, self.period.period_name)
         return f'{self.year.year} - {self.period.period_name}'
 
     def get_absolute_url(self):
         return reverse('courseinfo_semester_detail_urlpattern', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('courseinfo_semester_update_urlpattern', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['year__year', 'period__period_sequence']
@@ -52,11 +52,13 @@ class Course(models.Model):
     course_name = models.CharField(max_length=255)
 
     def __str__(self):
-        # return '%s - %s' % (self.course_number, self.course_name)
         return f'{self.course_number} - {self.course_name}'
 
     def get_absolute_url(self):
         return reverse('courseinfo_course_detail_urlpattern', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('courseinfo_course_update_urlpattern', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['course_number', 'course_name']
@@ -64,7 +66,6 @@ class Course(models.Model):
 
 
 class Instructor(models.Model):
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='instructor', on_delete=models.PROTECT, null=True)
     instructor_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=45)
@@ -74,15 +75,16 @@ class Instructor(models.Model):
     def __str__(self):
         result = ''
         if self.disambiguator == '':
-            # result = '%s, %s' % (self.last_name, self.first_name)
             return f'{self.last_name}, {self.first_name}'
         else:
-            # result = '%s, %s (%s)' % (self.last_name, self.first_name, self.disambiguator)
             return f'{self.last_name}, {self.first_name} ({self.disambiguator})'
         return result
 
     def get_absolute_url(self):
         return reverse('courseinfo_instructor_detail_urlpattern', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('courseinfo_instructor_update_urlpattern', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['last_name', 'first_name', 'disambiguator']
@@ -90,7 +92,6 @@ class Instructor(models.Model):
 
 
 class Student(models.Model):
-    # user = models.OneToOneField(User, on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='student', on_delete=models.PROTECT, null=True)
     student_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=45)
@@ -100,15 +101,16 @@ class Student(models.Model):
     def __str__(self):
         result = ''
         if self.disambiguator == '':
-            # result = '%s, %s' % (self.last_name, self.first_name)
             return f'{self.last_name}, {self.first_name}'
         else:
-            # result = '%s, %s (%s)' % (self.last_name, self.first_name, self.disambiguator)
             return f'{self.last_name}, {self.first_name} ({self.disambiguator})'
         return result
 
     def get_absolute_url(self):
         return reverse('courseinfo_student_detail_urlpattern', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('courseinfo_student_update_urlpattern', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['last_name', 'first_name', 'disambiguator']
@@ -123,11 +125,13 @@ class Section(models.Model):
     instructor = models.ForeignKey(Instructor, related_name='sections', on_delete=models.PROTECT)
 
     def __str__(self):
-        # return '%s - %s (%s)' % (self.course.course_number, self.section_name, self.semester.__str__())
         return f'{self.course.course_number} - {self.section_name} ({self.semester.__str__()})'
 
     def get_absolute_url(self):
         return reverse('courseinfo_section_detail_urlpattern', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('courseinfo_section_update_urlpattern', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['course', 'section_name', 'semester']
@@ -140,11 +144,13 @@ class Registration(models.Model):
     section = models.ForeignKey(Section, related_name='registrations', on_delete=models.PROTECT)
 
     def __str__(self):
-        # return '%s / %s' % (self.section, self.student)
         return f'{self.section} / {self.student}'
 
     def get_absolute_url(self):
         return reverse('courseinfo_registration_detail_urlpattern', kwargs={'pk': self.pk})
+
+    def get_update_url(self):
+        return reverse('courseinfo_registration_update_urlpattern', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ['section', 'student']
