@@ -6,11 +6,11 @@
 
 {% block content %}
     <h2>Student List</h2>
-
     <div>
-        <a href="{% url 'courseinfo_student_create_urlpattern' %}">Create New Student</a>
+      <a href="{% url 'courseinfo_student_create_urlpattern' %}"
+         class="button button-primary">
+        Create New Student</a>
     </div>
-
     <ul>
         {% for student in student_list %}
             <li>
@@ -21,24 +21,24 @@
         {% endfor %}
     </ul>
 
-    {% if is_paginated %}
+      {% if is_paginated %}
     <ul>
-        {% if previous_page_url %}
+      {% if previous_page_url %}
         <li>
-            <a href="{{ previous_page_url }}">Previous</a>
+          <a href="{{ previous_page_url }}">
+            Previous</a>
         </li>
-        {% endif %}
-
+      {% endif %}
+      <li>
+        Page {{ student_list.number }}
+        of {{ paginator.num_pages }}
+      </li>
+      {% if next_page_url %}
         <li>
-            Page {{ student_list.number }}
-            of {{ paginator.num_pages }}
+          <a href="{{ next_page_url }}">
+            Next</a>
         </li>
-
-        {% if next_page_url %}
-            <li>
-                <a href="{{ next_page_url }}">Next</a>
-            </li>
-        {% endif %}
+      {% endif %}
     </ul>
-    {% endif %}
+  {% endif %}
 {% endblock %}
