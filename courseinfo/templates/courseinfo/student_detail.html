@@ -39,7 +39,7 @@
     <section>
         <h3>Registrations</h3>
         <ul>
-            {% for registration in registration_list %}
+            {% for registration in registrations %}
                 <li>
                     <a href="{{ registration.get_absolute_url }}">{{ registration.section }}</a>
                 </li>
