@@ -32,10 +32,10 @@
                 <th>Last Name:</th>
                 <td>{{ student.last_name }}</td>
             </tr>
-            {% if student.nickname %}
+            {% if student.disambiguator %}
                 <tr>
-                    <th>Nickname:</th>
-                    <td>{{ student.nickname }}</td>
+                    <th>Disambiguator:</th>
+                    <td>{{ student.disambiguator }}</td>
                 </tr>
             {% endif %}
         </table>
